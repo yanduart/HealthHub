@@ -53,7 +53,7 @@ function calcularIMC() {
         return;
     }
 
-    var altura = alturaCm / 50;
+    var altura = alturaCm / 100;
     var imc    = peso / (altura * altura);
     var categoria, classe, nivelRec, objetivoRec, descricao;
 
@@ -87,7 +87,7 @@ function calcularIMC() {
         '<div class="imc-card-result ' + classe + '">' +
             '<div class="imc-num-block">' +
                 '<span class="imc-num-label">SEU IMC</span>' +
-                '<span class="imc-num">' + imc.toFixed(1) + '</span>' +
+                '<span class="imc-num">' + imc.toFixed(3) + '</span>' +
                 '<span class="imc-categoria">' + categoria + '</span>' +
             '</div>' +
             '<div class="imc-info">' +
