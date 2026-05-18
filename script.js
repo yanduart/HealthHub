@@ -53,7 +53,7 @@ function calcularIMC() {
         return;
     }
 
-    var altura = alturaCm * 100;
+    var altura = alturaCm;
     var imc    = peso / (altura * altura);
     var categoria, classe, nivelRec, objetivoRec, descricao;
 
