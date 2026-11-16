@@ -671,15 +671,58 @@ function fecharListaMusicas() {
 
 /* ---------- RECURSOS DO NAVEGADOR: TELA LIGADA, VOZ, VIBRAÇÃO, COMPARTILHAR ---------- */
 
-// 1) Wake Lock — impede a tela de apagar enquanto o timer roda
+// Avisos mostrados dentro do timer quando tela ligada / vibração não funcionam
+const avisosTimer = { tela: '', vibracao: '' };
+
+function renderAvisoTimer() {
+    const el = document.getElementById('timerAviso');
+    if (!el) return;
+    const txt = [avisosTimer.tela, avisosTimer.vibracao].filter(Boolean).join(' ');
+    el.textContent = txt;
+    el.style.display = txt ? 'block' : 'none';
+}
+
+// Explica o motivo mais provável de um recurso não funcionar
+function motivoIndisponivel() {
+    if (window.self !== window.top) return 'o site está dentro de outra página (prévia). Abra o endereço dele direto no navegador.';
+    if (!window.isSecureContext) return 'o site precisa estar em HTTPS.';
+    return 'o navegador ou o celular bloqueou (confira economia de bateria e permissões).';
+}
+
+// 1) Wake Lock — impede a tela de apagar enquanto o timer está aberto
 let wakeLock = null;
+let wakeLockPendente = false;
+
+function timerAberto() {
+    const ov = document.getElementById('timerOverlay');
+    return !!(ov && ov.classList.contains('show'));
+}
 
 async function manterTelaLigada() {
+    if (wakeLock || wakeLockPendente) return;
+
+    if (!('wakeLock' in navigator)) {
+        avisosTimer.tela = `Tela ligada indisponível: ${motivoIndisponivel()}`;
+        renderAvisoTimer();
+        return;
+    }
+
+    wakeLockPendente = true;
     try {
-        if (!('wakeLock' in navigator) || wakeLock) return;
-        wakeLock = await navigator.wakeLock.request('screen');
-        wakeLock.addEventListener('release', () => { wakeLock = null; });
-    } catch (e) { /* sem suporte ou negado: ignora */ }
+        const lock = await navigator.wakeLock.request('screen');
+        if (!timerAberto()) {          // o timer fechou enquanto pedíamos
+            lock.release().catch(() => {});
+        } else {
+            wakeLock = lock;
+            wakeLock.addEventListener('release', () => { wakeLock = null; });
+            avisosTimer.tela = '';
+        }
+    } catch (e) {
+        avisosTimer.tela = `Tela ligada indisponível: ${motivoIndisponivel()}`;
+    } finally {
+        wakeLockPendente = false;
+        renderAvisoTimer();
+    }
 }
 
 function liberarTela() {
@@ -691,7 +734,7 @@ function liberarTela() {
 
 // o navegador solta o bloqueio ao trocar de aba; pega de novo ao voltar
 document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && timerRunning) manterTelaLigada();
+    if (document.visibilityState === 'visible' && timerAberto()) manterTelaLigada();
 });
 
 // 2) Speech Synthesis — o site fala (pode ligar/desligar no timer)
@@ -727,7 +770,18 @@ function toggleVoz() {
 
 // 3) Vibration — vibra o celular (não funciona no iPhone/Safari)
 function vibrar(padrao) {
-    try { if ('vibrate' in navigator) navigator.vibrate(padrao); } catch (e) { /* ignora */ }
+    try {
+        if (!('vibrate' in navigator)) {
+            avisosTimer.vibracao = 'Vibração indisponível: este navegador não suporta (iPhone/Safari não vibram por sites).';
+        } else if (navigator.vibrate(padrao) === false) {
+            avisosTimer.vibracao = `Vibração bloqueada: ${motivoIndisponivel()}`;
+        } else {
+            avisosTimer.vibracao = '';
+        }
+    } catch (e) {
+        avisosTimer.vibracao = 'Vibração indisponível neste navegador.';
+    }
+    renderAvisoTimer();
 }
 
 // Fala e vibra ao concluir um exercício / o treino todo
@@ -1098,12 +1152,17 @@ function abrirTimerComProgresso(ex, index, tempoSalvo) {
 
     atualizarDisplay();
     document.getElementById('timerOverlay').classList.add('show');
+    avisosTimer.tela = '';
+    avisosTimer.vibracao = '';
+    renderAvisoTimer();
+    manterTelaLigada(); // tela fica ligada enquanto o timer estiver aberto
     setTimerBtn(false);
     mostrarBotaoConcluir(timerIndexAtual);
 }
 
 function fecharTimer() {
     if (timerRunning) pauseTimer();
+    liberarTela();
     if (timerIndexAtual !== -1) salvarProgresso('pausado', timerRemaining);
     document.getElementById('timerOverlay').classList.remove('show');
 }
@@ -1139,6 +1198,7 @@ function explodirFecharTimer() {
     setTimeout(() => {
         overlay.classList.remove('show', 'saindo');
         modal.classList.remove('explodindo');
+        liberarTela();
         overlay.querySelectorAll('.burst-particle').forEach(p => p.remove());
     }, 700);
 }
@@ -1162,6 +1222,7 @@ function startTimer() {
     timerRunning = true;
     setTimerBtn(true);
     manterTelaLigada();
+    vibrar(80); // pequena vibração ao iniciar (dentro do toque do usuário) — também testa o recurso
     if (timerRemaining === timerInitial) {
         falar(`Começando ${document.getElementById('timerExercicio').textContent}`);
     }
@@ -1215,7 +1276,6 @@ function startTimer() {
 
 function pauseTimer() {
     timerRunning = false;
-    liberarTela();
     if (timerInterval) cancelAnimationFrame(timerInterval);
     setTimerBtn(false);
     if (timerIndexAtual !== -1) salvarProgresso('pausado', timerRemaining);
