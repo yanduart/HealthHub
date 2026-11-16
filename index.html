@@ -60,10 +60,28 @@
             </button>
         </nav>
 
-        <button class="music-btn" id="musicBtn" onclick="toggleMusica()" data-testid="music-btn">
-            <i class="fa-solid fa-play" id="musicIcon"></i>
-            <span id="musicLabel" class="music-label">Tocar</span>
-        </button>
+        <div class="music-wrap" id="musicWrap">
+            <button class="music-btn" id="musicBtn" onclick="toggleMusica()" data-testid="music-btn">
+                <i class="fa-solid fa-play" id="musicIcon"></i>
+                <span id="musicLabel" class="music-label">Tocar</span>
+            </button>
+            <button class="music-list-btn" id="musicListBtn" onclick="toggleListaMusicas()" aria-label="Escolher música" data-testid="music-list-btn">
+                <i class="fa-solid fa-music"></i>
+            </button>
+
+            <!-- faíscas (aparecem só quando está tocando) -->
+            <span class="spark s1"></span>
+            <span class="spark s2"></span>
+            <span class="spark s3"></span>
+            <span class="spark s4"></span>
+            <span class="spark s5"></span>
+            <span class="spark s6"></span>
+
+            <div class="music-panel" id="musicPanel">
+                <div class="music-panel-title">MÚSICAS</div>
+                <div id="musicLista"></div>
+            </div>
+        </div>
     </header>
 
     <main class="main-wrap">
@@ -119,15 +137,15 @@
                     <label>PESO (kg)</label>
                     <div class="select-wrap">
                         <i class="fa-solid fa-weight-scale"></i>
-                        <input type="number" id="imcPeso" placeholder="Ex: 70" min="20" max="300" step="0.1" inputmode="decimal" data-testid="imc-peso" />
+                        <input type="text" id="imcPeso" placeholder="Ex: 70 ou 70,5" inputmode="decimal" data-testid="imc-peso" />
                     </div>
                 </div>
 
                 <div class="select-group">
-                    <label>ALTURA (cm)</label>
+                    <label>ALTURA</label>
                     <div class="select-wrap">
                         <i class="fa-solid fa-ruler-vertical"></i>
-                        <input type="number" id="imcAltura" placeholder="Ex: 175" min="100" max="250" step="0.1" inputmode="decimal" data-testid="imc-altura" />
+                        <input type="text" id="imcAltura" placeholder="Ex: 1,75 ou 175" inputmode="decimal" data-testid="imc-altura" />
                     </div>
                 </div>
 
@@ -183,7 +201,7 @@
                 </div>
             </div>
 
-            <button class="btn-primary" onclick="gerarRotina()" data-testid="gerar-btn">
+            <button class="btn-primary" id="gerarBtn" onclick="gerarRotina()" data-testid="gerar-btn">
                 <i class="fa-solid fa-bolt"></i>
                 GERAR MINHA ROTINA
                 <span class="btn-shine"></span>
@@ -348,6 +366,9 @@
             <button class="timer-close" onclick="fecharTimer()" data-testid="timer-close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
+            <button class="timer-voz" id="timerVozBtn" onclick="toggleVoz()" aria-label="Ativar ou desativar a voz" data-testid="timer-voz">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
             <span class="timer-label" id="timerExercicio">Exercício</span>
             <div class="timer-display" id="timerDisplay" data-testid="timer-display">00:00</div>
             <div class="timer-meta" id="timerMeta">—</div>
@@ -362,12 +383,43 @@
         </div>
     </div>
 
-    <audio id="musica" src="musica.mp3" loop preload="none"></audio>
+    <!-- COMPARTILHAR TREINO (prévia do card + opções) -->
+    <div class="share-overlay" id="shareOverlay" onclick="if (event.target === this) fecharShare()">
+        <div class="share-modal" role="dialog" aria-modal="true">
+            <button class="timer-close" onclick="fecharShare()" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h4 class="hh-dialog-title">COMPARTILHAR <span>TREINO</span></h4>
+            <img class="share-preview" id="sharePreview" alt="Prévia do card do treino" />
+            <p class="share-hint" id="shareHint"></p>
+            <div class="share-actions">
+                <button class="timer-btn" id="shareNativeBtn" onclick="compartilharNativo()">
+                    <i class="fa-solid fa-share-nodes"></i> Compartilhar
+                </button>
+                <button class="timer-btn whatsapp" id="shareWppBtn" onclick="compartilharWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Web
+                </button>
+                <button class="timer-btn ghost" onclick="baixarShare()">
+                    <i class="fa-solid fa-download"></i> Baixar PNG
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIÁLOGO HEALTHHUB (substitui alert/confirm) -->
+    <div class="hh-dialog-overlay" id="hhDialog">
+        <div class="hh-dialog" role="dialog" aria-modal="true">
+            <h4 class="hh-dialog-title">HEALTH<span>HUB</span></h4>
+            <p class="hh-dialog-msg" id="hhDialogMsg"></p>
+            <div class="hh-dialog-actions">
+                <button class="timer-btn ghost" id="hhDialogCancel">Cancelar</button>
+                <button class="timer-btn" id="hhDialogOk">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="musica" preload="none"></audio>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
