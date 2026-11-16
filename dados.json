@@ -1,159 +1,42 @@
 {
   "exercicios": [
-    {
-      "nome": "Polichinelo",
-      "tipo": "cardio",
-      "nivel": "iniciante",
-      "duracao": "2 minutos"
-    },
-    {
-      "nome": "Polichinelo",
-      "tipo": "cardio",
-      "nivel": "intermediário",
-      "duracao": "3 minutos"
-    },
-    {
-      "nome": "Polichinelo",
-      "tipo": "cardio",
-      "nivel": "avançado",
-      "duracao": "5 minutos"
-    },
-    {
-      "nome": "Flexão de braço",
-      "tipo": "força",
-      "nivel": "iniciante",
-      "duracao": "3x10"
-    },
-    {
-      "nome": "Flexão de braço",
-      "tipo": "força",
-      "nivel": "intermediário",
-      "duracao": "3x15"
-    },
-    {
-      "nome": "Flexão de braço",
-      "tipo": "força",
-      "nivel": "avançado",
-      "duracao": "4x15"
-    },
-    {
-      "nome": "Agachamento",
-      "tipo": "força",
-      "nivel": "iniciante",
-      "duracao": "3x15"
-    },
-    {
-      "nome": "Agachamento",
-      "tipo": "força",
-      "nivel": "intermediário",
-      "duracao": "3x20"
-    },
-    {
-      "nome": "Agachamento",
-      "tipo": "força",
-      "nivel": "avançado",
-      "duracao": "4x20"
-    },
-    {
-      "nome": "Prancha",
-      "tipo": "força",
-      "nivel": "iniciante",
-      "duracao": "3x30s"
-    },
-    {
-      "nome": "Prancha",
-      "tipo": "força",
-      "nivel": "intermediário",
-      "duracao": "3x45s"
-    },
-    {
-      "nome": "Prancha",
-      "tipo": "força",
-      "nivel": "avançado",
-      "duracao": "4x60s"
-    },
-    {
-      "nome": "Abdominal bicicleta",
-      "tipo": "força",
-      "nivel": "iniciante",
-      "duracao": "3x15"
-    },
-    {
-      "nome": "Abdominal bicicleta",
-      "tipo": "força",
-      "nivel": "intermediário",
-      "duracao": "3x20"
-    },
-    {
-      "nome": "Abdominal bicicleta",
-      "tipo": "força",
-      "nivel": "avançado",
-      "duracao": "4x25"
-    },
-    {
-      "nome": "Burpee",
-      "tipo": "cardio",
-      "nivel": "intermediário",
-      "duracao": "3x10"
-    },
-    {
-      "nome": "Burpee",
-      "tipo": "cardio",
-      "nivel": "avançado",
-      "duracao": "4x12"
-    }
+    { "nome": "Polichinelo", "tipo": "cardio", "nivel": "iniciante", "ordem": 1, "duracao": "2 minutos" },
+    { "nome": "Flexão de braço", "tipo": "força", "nivel": "iniciante", "ordem": 2, "duracao": "3x10" },
+    { "nome": "Agachamento", "tipo": "força", "nivel": "iniciante", "ordem": 3, "duracao": "3x15" },
+    { "nome": "Prancha", "tipo": "força", "nivel": "iniciante", "ordem": 4, "duracao": "3x30s" },
+    { "nome": "Abdominal bicicleta", "tipo": "força", "nivel": "iniciante", "ordem": 5, "duracao": "3x15" },
+
+    { "nome": "Polichinelo", "tipo": "cardio", "nivel": "intermediário", "ordem": 1, "duracao": "3 minutos" },
+    { "nome": "Flexão de braço", "tipo": "força", "nivel": "intermediário", "ordem": 2, "duracao": "3x15" },
+    { "nome": "Agachamento", "tipo": "força", "nivel": "intermediário", "ordem": 3, "duracao": "3x20" },
+    { "nome": "Prancha", "tipo": "força", "nivel": "intermediário", "ordem": 4, "duracao": "3x45s" },
+    { "nome": "Abdominal bicicleta", "tipo": "força", "nivel": "intermediário", "ordem": 5, "duracao": "3x20" },
+    { "nome": "Burpee", "tipo": "cardio", "nivel": "intermediário", "ordem": 6, "duracao": "3x10" },
+
+    { "nome": "Polichinelo", "tipo": "cardio", "nivel": "avançado", "ordem": 1, "duracao": "5 minutos" },
+    { "nome": "Flexão de braço", "tipo": "força", "nivel": "avançado", "ordem": 2, "duracao": "4x15" },
+    { "nome": "Agachamento", "tipo": "força", "nivel": "avançado", "ordem": 3, "duracao": "4x20" },
+    { "nome": "Prancha", "tipo": "força", "nivel": "avançado", "ordem": 4, "duracao": "4x60s" },
+    { "nome": "Abdominal bicicleta", "tipo": "força", "nivel": "avançado", "ordem": 5, "duracao": "4x25" },
+    { "nome": "Burpee", "tipo": "cardio", "nivel": "avançado", "ordem": 6, "duracao": "4x12" }
   ],
   "alimentos": {
     "emagrecimento": [
-      {
-        "nome": "Aveia com leite e banana",
-        "tipo": "café da manhã"
-      },
-      {
-        "nome": "Salada de frango com quinoa",
-        "tipo": "almoço"
-      },
-      {
-        "nome": "Sopa de legumes",
-        "tipo": "jantar"
-      },
-      {
-        "nome": "Iogurte com frutas",
-        "tipo": "lanche"
-      }
+      { "nome": "Aveia com leite e banana", "tipo": "café da manhã" },
+      { "nome": "Salada de frango com quinoa", "tipo": "almoço" },
+      { "nome": "Sopa de legumes", "tipo": "jantar" },
+      { "nome": "Iogurte com frutas", "tipo": "lanche" }
     ],
     "ganho_massa": [
-      {
-        "nome": "Omelete com vegetais",
-        "tipo": "café da manhã"
-      },
-      {
-        "nome": "Omelete de claras com vegetais",
-        "tipo": "almoço"
-      },
-      {
-        "nome": "Frango grelhado com salada",
-        "tipo": "jantar"
-      },
-      {
-        "nome": "Shake de proteína",
-        "tipo": "lanche"
-      }
+      { "nome": "Omelete com vegetais", "tipo": "café da manhã" },
+      { "nome": "Omelete de claras com vegetais", "tipo": "almoço" },
+      { "nome": "Frango grelhado com salada", "tipo": "jantar" },
+      { "nome": "Shake de proteína", "tipo": "lanche" }
     ],
     "manutencao": [
-      {
-        "nome": "Peito de frango grelhado com arroz integral e legumes",
-        "tipo": "almoço"
-      },
-      {
-        "nome": "Peixe assado com batata-doce",
-        "tipo": "jantar"
-      },
-      {
-        "nome": "Frutas com castanhas",
-        "tipo": "lanche"
-      }
+      { "nome": "Peito de frango grelhado com arroz integral e legumes", "tipo": "almoço" },
+      { "nome": "Peixe assado com batata-doce", "tipo": "jantar" },
+      { "nome": "Frutas com castanhas", "tipo": "lanche" }
     ]
   }
 }
-
