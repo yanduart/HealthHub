@@ -93,7 +93,7 @@ Você pode usar o HealthHub diretamente pelo navegador, sem baixar nada:
 
 Se quiser baixar todos os arquivos do projeto em formato ZIP:
 
-1. Acesse o [repositório no GitHub](https://github.com/yanduart/HealthHub/).
+1. Acesse o repositório no GitHub.
 2. Clique no botão verde **Code**.
 3. Escolha **Download ZIP**.
 4. Extraia o arquivo ZIP no seu computador.
