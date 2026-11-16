@@ -768,20 +768,48 @@ function toggleVoz() {
     atualizarBotaoVoz();
 }
 
-// 3) Vibration — vibra o celular (não funciona no iPhone/Safari)
+// 3) Vibration — funciona principalmente em Android + Chrome/Firefox.
+// Não funciona em iPhone/iPad pelo Safari e pode ser bloqueada em prévias/iframes.
+let vibracaoDisponivel = null;
+
 function vibrar(padrao) {
+    const api = navigator && navigator.vibrate;
+
     try {
-        if (!('vibrate' in navigator)) {
-            avisosTimer.vibracao = 'Vibração indisponível: este navegador não suporta (iPhone/Safari não vibram por sites).';
-        } else if (navigator.vibrate(padrao) === false) {
-            avisosTimer.vibracao = `Vibração bloqueada: ${motivoIndisponivel()}`;
+        if (typeof api !== 'function') {
+            vibracaoDisponivel = false;
+            avisosTimer.vibracao = 'Vibração indisponível: este navegador não oferece a API (iPhone/iPad geralmente não permitem vibração em sites).';
+        } else if (window.self !== window.top) {
+            vibracaoDisponivel = false;
+            avisosTimer.vibracao = 'Vibração indisponível na prévia incorporada. Abra o endereço publicado diretamente no Chrome do celular.';
         } else {
-            avisosTimer.vibracao = '';
+            // Cancela qualquer padrão anterior antes de iniciar o novo.
+            api.call(navigator, 0);
+            const aceitou = api.call(navigator, padrao);
+
+            // Alguns navegadores retornam false quando a permissão/política do
+            // documento bloqueia a vibração. Outros não retornam nada.
+            if (aceitou === false) {
+                vibracaoDisponivel = false;
+                avisosTimer.vibracao = `Vibração bloqueada: ${motivoIndisponivel()} Verifique o modo silencioso/economia de bateria.`;
+            } else {
+                vibracaoDisponivel = true;
+                avisosTimer.vibracao = '';
+            }
         }
     } catch (e) {
-        avisosTimer.vibracao = 'Vibração indisponível neste navegador.';
+        vibracaoDisponivel = false;
+        avisosTimer.vibracao = 'Vibração indisponível neste navegador ou bloqueada pela política do site. Abra o site diretamente em HTTPS.';
     }
+
     renderAvisoTimer();
+    return vibracaoDisponivel;
+}
+
+function pararVibracao() {
+    try {
+        if (typeof navigator.vibrate === 'function') navigator.vibrate(0);
+    } catch (e) { /* ignora */ }
 }
 
 // Fala e vibra ao concluir um exercício / o treino todo
@@ -1162,6 +1190,7 @@ function abrirTimerComProgresso(ex, index, tempoSalvo) {
 
 function fecharTimer() {
     if (timerRunning) pauseTimer();
+    pararVibracao();
     liberarTela();
     if (timerIndexAtual !== -1) salvarProgresso('pausado', timerRemaining);
     document.getElementById('timerOverlay').classList.remove('show');
@@ -1222,7 +1251,9 @@ function startTimer() {
     timerRunning = true;
     setTimerBtn(true);
     manterTelaLigada();
-    vibrar(80); // pequena vibração ao iniciar (dentro do toque do usuário) — também testa o recurso
+    // Esta chamada acontece diretamente no clique do botão, que é o momento
+    // aceito pelos navegadores móveis para liberar recursos do dispositivo.
+    vibrar(180);
     if (timerRemaining === timerInitial) {
         falar(`Começando ${document.getElementById('timerExercicio').textContent}`);
     }
