@@ -546,7 +546,7 @@ async function limparHistorico() {
 // Para adicionar uma nova: coloque o arquivo na pasta do site e escreva o nome do arquivo na lista.
 // Exemplos: 'Music.mp3', 'Treino Pesado.mp3', 'musicas/Foco Total.mp3'
 // O nome que aparece na escolha é gerado sozinho a partir do nome do arquivo.
-const MUSICAS = ['Music.mp3'];
+const MUSICAS = ['Thriller - Michael Jackson.mp3', 'a-ha - Take On Me.mp3'];
 let musicaAtual = 0;
 
 // 'musicas/Treino_Pesado.mp3' -> 'Treino Pesado'
