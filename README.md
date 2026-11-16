@@ -83,13 +83,13 @@ Ao clicar em **Continuar treino** no histórico, o app restaura exatamente o pon
 
 ## ▶️ Como usar o projeto
 
-### Acessar diretamente pelo link
+## Acessar diretamente pelo link
 
 Você pode usar o HealthHub sem instalar nada:
 
 🔗 [Abrir o HealthHub](https://yanduart.github.io/HealthHub/)
 
-### Baixar o projeto completo em ZIP
+## Baixar o projeto completo em ZIP
 
 Para baixar todos os arquivos do projeto:
 
