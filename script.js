@@ -546,7 +546,7 @@ async function limparHistorico() {
 // Para adicionar uma nova: coloque o arquivo na pasta do site e escreva o nome do arquivo na lista.
 // Exemplos: 'Music.mp3', 'Treino Pesado.mp3', 'musicas/Foco Total.mp3'
 // O nome que aparece na escolha é gerado sozinho a partir do nome do arquivo.
-const MUSICAS = ['a-ha - Take On Me.mp3', 'Thriller - Michael Jackson.mp3'];
+const MUSICAS = ['Music.mp3'];
 let musicaAtual = 0;
 
 // 'musicas/Treino_Pesado.mp3' -> 'Treino Pesado'
@@ -1180,7 +1180,7 @@ function startTimer() {
             // bip de contagem regressiva nos últimos 5 segundos
             if (timerRemaining > 0 && timerRemaining <= 5) {
                 beepContagem(timerRemaining);
-                vibrar(40);
+                vibrar(timerRemaining === 1 ? 250 : 120); // 40ms era curto demais para muitos celulares
                 if (timerRemaining <= 3) falar(String(timerRemaining));
             }
 
@@ -1193,7 +1193,7 @@ function startTimer() {
             if (timerRemaining <= 0) {
                 pauseTimer();
                 beepFinal();
-                vibrar([200, 100, 200]);
+                vibrar([300, 120, 300]);
                 document.getElementById('timerDisplay').textContent = '00:00';
                 if (timerIndexAtual !== -1) {
                     marcarExercicioConcluido(timerIndexAtual);
